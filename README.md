@@ -2,6 +2,21 @@
 This is the 3rd assignment for my numerical calculus class in UCF.
 Chapter 5 and 6 material are covered over this assignment.
 
+Keeping true to adding industry likeness to each assignment, it is required that you need to
+include a README per repository. A README is a file used to describe a repo’s purpose, include
+compilation purposes, or both. A proper README.md is typically filled out with sections, akin to
+an essay.
+For this assignment, a README needs to be included and filled out. The amount of info you put
+into the README is up to you, but you will need the following at least:
+• Mention of requirements.txt
+o No need to include this UNLESS you plan on using a library other than NumPy
+• Mention of running python
+o Since we require instructions on to run, you will need to include the command to
+run the script from command line.
+RESTRICTIONS
+Please avoid using the scipy library for this assignment. You will need to be able to do the
+decomposition without the use of this external library
+
 # Questions
 1. Euler Method with the following details:
    a. Function t-y^2
