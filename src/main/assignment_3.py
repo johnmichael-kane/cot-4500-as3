@@ -24,6 +24,7 @@ def runge_kutta(N, a, b, w):
 def gaussian_elim(A, b):
    print(b)
 
+#Problem 4, the factorization part
 def LUFactorization(M):
    n=len(M)
    L=np.zeros((n,n))
@@ -52,8 +53,8 @@ def LUFactorization(M):
 
    return L,U
 
-def matrix_determinant(M):
-    print(M)
+def matrix_determinant(U):
+   return U
 
 def diagonal_dominate(M):
    print(M)
@@ -87,17 +88,17 @@ def main():
     #expected output [2 -1 1]
 
     #Problem 4
-    #implement LU Factorization for the matrix
     matrix4=[[1, 1, 0, 3],
              [2, 1, -1, 1],
              [3, -1, -1, 2],
              [-1, 2, 3, -1]]
-    L,U=LUFactorization(matrix4)
-    print(np.prod(np.diag(U))) #determinant
+    
+    L,U=LUFactorization(matrix4) #LU Factorization on the matrix
+    #print(matrix_determinant(U)) create this function!!!
     print(L) #L Matrix
     print(U) #U matrix
 
-    #determinant 38.99999999999999
+    #determinant: 38.99999999999999
     #L Matrix
     #[[1. 0. 0. 0.]
     #[2. 1. 0. 0.]
