@@ -1,3 +1,4 @@
+import numpy as np
 #function t-y^2
 #range 0<t<2 ----- a<t<b
 #iterations: 10  ----- N
@@ -17,20 +18,42 @@ def euler_method(N, a, b, w):
 
     return w
 
-def range_kutta(N, a, b, w):
+def runge_kutta(N, a, b, w):
    x=1
 
 def gaussian_elim(A, b):
    print(b)
 
+def LUFactorization(M):
+   n=len(M)
+   L=np.zeros((n,n))
+   U=np.zeros((n,n))
+   
+   for i in range(n):
+      #upper triangular
+      for k in range(i,n):
+         #Summation of L(i,j) * U(j,k)
+         sum=0
+         for j in range(i):
+            sum += (L[i][j] * U[j][k])
+         
+         U[i][k] = M[i][k] - sum
+   
+      #lower triangular
+      for k in range(i,n):
+         if (i==k):
+            L[i][i]=1
+         else:
+            sum=0
+            for j in range(i):
+               sum += (L[k][j] * U[j][i])
+
+            L[k][i] = (M[k][i] - sum)/ U[i][i]
+
+   return L,U
+
 def matrix_determinant(M):
     print(M)
-
-def LMatrix(M):
-   print(M)
-
-def UMatrix(M):
-   print(M)
 
 def diagonal_dominate(M):
    print(M)
@@ -40,14 +63,22 @@ def positive_def(M):
 
 def main():
     #Problem 1
+    #function: t-y^2, range 0<t<2, 
+    #iterations:10, initial point: f(0)=1
+    #Solve using euler's method
     print(euler_method(10, 0, 2, 1))
     #expected output: 1.2446380979332121
 
     #Problem 2
-    #range_kutta(10, 0, 2, 1)
+    #function: t-y^2, range 0<t<2, 
+    #iterations:10, initial point: f(0)=1
+    #Solve using runge_kutta
+    #runge_kutta(10, 0, 2, 1)
     #expected output: 1.251316587879806
 
     #Problem 3
+    #use guassian elimination/backwards subst.
+    #to solve the linear system in aug. matrix
     variables=[[2, -1, 1],
                [1, 3, 1],
                [-1, 5, 4]]
@@ -56,18 +87,23 @@ def main():
     #expected output [2 -1 1]
 
     #Problem 4
+    #implement LU Factorization for the matrix
     matrix4=[[1, 1, 0, 3],
              [2, 1, -1, 1],
              [3, -1, -1, 2],
              [-1, 2, 3, -1]]
-    matrix_determinant(matrix4)
-    #expected output 38.99999999999999
-    LMatrix(matrix4)
+    L,U=LUFactorization(matrix4)
+    print(np.prod(np.diag(U))) #determinant
+    print(L) #L Matrix
+    print(U) #U matrix
+
+    #determinant 38.99999999999999
+    #L Matrix
     #[[1. 0. 0. 0.]
     #[2. 1. 0. 0.]
     #[3. 4. 1. 0.]
     #[-1. -3. 0. 1.]]
-    UMatrix(matrix4)
+    #U Matrix
     #[[1. 1. 0. 3.]
     #[0. -1. -1. -5.]
     #[0. 0. 3. 13.]
