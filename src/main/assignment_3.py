@@ -24,9 +24,42 @@ def euler_method(N, a, b, w):
 def runge_kutta(N, a, b, w):
   x = 1
 
+def guassian_elim(M, solutions):
+  # Step 1: Form the augmented matrix
+  n = len(M)
+  for i in range(n):
+    M[i].append(solutions[i])
+  # Step 2: Apply Gaussian Elimination to form upper triangular matrix
+  for i in range(n):
+    # Search for maximum in this column
+    max_el = abs(M[i][i])
+    max_row = i
+    for k in range(i+1, n):
+      if abs(M[k][i]) > max_el:
+        max_el = abs(M[k][i])
+        max_row = k
+    # Swap maximum row with current row (column by column)
+    for k in range(i, n+1):
+      tmp = M[max_row][k]
+      M[max_row][k] = M[i][k]
+      M[i][k] = tmp
+      # Make all rows below this one 0 in current column
+    for k in range(i+1, n):
+      c = -M[k][i] / M[i][i]
+      for j in range(i, n+1):
+        if i == j:
+          M[k][j] = 0
+        else:
+          M[k][j] += c * M[i][j]
 
-def gaussian_elim(A, b):
-  print(b)
+    # Step 3: Perform backward substitution
+  x = [0 for i in range(n)]
+  for i in range(n-1, -1, -1):
+    x[i] = M[i][n] / M[i][i]
+    for k in range(i-1, -1, -1):
+      M[k][n] -= M[k][i] * x[i]
+
+  return x
 
 
 #Problem 4, the factorization part
@@ -98,9 +131,14 @@ def main():
   #Problem 3
   #use guassian elimination/backwards subst.
   #to solve the linear system in aug. matrix
-  variables = [[2, -1, 1], [1, 3, 1], [-1, 5, 4]]
-  solutions = [6, 0, 3]
-  gaussian_elim(variables, solutions)
+  variables = [[2, -1, 1],
+               [1, 3, 1],
+               [-1, 5, 4]]
+  solutions = [6, 0, -3]
+
+  elimination = guassian_elim(variables, solutions)
+  elimination = [int(num) for num in elimination]
+  print(elimination)
   #expected output [2 -1 1]
 
   #Problem 4
