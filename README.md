@@ -56,7 +56,7 @@ decomposition without the use of this external library
 1 0 2
 (Center them)
 
-###Solutions:
-[image here]
-
-#Compile Instructions
+#Run
+1. Open terminal
+2. Make sure numpy is installed with `pip install numpy`
+3. Run with `python src/main/assignment_3.py`
