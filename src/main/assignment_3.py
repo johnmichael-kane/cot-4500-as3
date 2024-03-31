@@ -181,6 +181,5 @@ def main():
   print(positive_def(matrix6))
   #expected outcome True
 
-
 if __name__ == "__main__":
   main()
