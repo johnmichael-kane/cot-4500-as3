@@ -1,28 +1,32 @@
 import numpy as np
 
+#used for euler_method and runge_kutta
+def f(t,y):
+  return t-y**2
 
-#function t-y^2
-#range 0<t<2 ----- a<t<b
-#iterations: 10  ----- N
-# initial point: f(0)=1 ------- f(a)=y_0
-#dy/dt=y-t^2
-def euler_method(N, a, b, w):
-  h = (b - a) / N
-  #w starts as w_0, and it'll change as we calculate through the iterations
-  #Taylor's theorem:
+
+#assign t as a, and assign y as w
+def euler_method(N, t, b, y):
+  h = (b - t) / N 
   for i in range(N):
-    t = a + i * h
-    w = w + h * (w - (t)**2)
+    y += h * f(t, y)
+    t += h
+  
+  return y
 
-    #w1=w0+h(w0+(t0)^2)
-    #print("i: " + str(i) + "\tti: " + str(t))
-    #print("w" + str(i+1) + ": " + str(w))
+def runge_kutta(N, t, b, y):
+  h = (b - t) / N
 
-  return w
-
-
-def runge_kutta(N, a, b, w):
-  x = 1
+  #main function
+  for i in range(N):
+    k1 = h * f(t, y)
+    k2 = h * f(t + h/2, y + k1/2)
+    k3 = h * f(t + h/2, y + k2/2)
+    k4 = h * f(t + h, y + k3)
+    y += (k1 + 2*k2 + 2*k3 + k4) / 6
+    t += h
+  
+  return y
 
 def guassian_elim(M, solutions):
   # Step 1: Form the augmented matrix
@@ -91,7 +95,6 @@ def LUFactorization(M):
 
   return L, U
 
-
 def matrix_determinant(U):
   return U
 
@@ -113,7 +116,6 @@ def positive_def(M):
   eigenvalues = np.linalg.eigvals(M)
   return np.all(eigenvalues > 0)
 
-
 def main():
   #Problem 1
   a = 0
@@ -125,7 +127,8 @@ def main():
   #expected output: 1.2446380979332121
 
   #Problem 2
-  #runge_kutta(iterations, a, b, w)
+  print(runge_kutta(iterations, a, b, w))
+  print()
   #expected output: 1.251316587879806
 
   #Problem 3
@@ -139,13 +142,14 @@ def main():
   elimination = guassian_elim(variables, solutions)
   elimination = [int(num) for num in elimination]
   print(elimination)
+  print()
   #expected output [2 -1 1]
 
   #Problem 4
   matrix4 = [[1, 1, 0, 3], [2, 1, -1, 1], [3, -1, -1, 2], [-1, 2, 3, -1]]
+  print(np.linalg.det(matrix4)) #print the matrix determinant
 
   L, U = LUFactorization(matrix4)  #LU Factorization on the matrix
-  #print(matrix_determinant(U)) create this function!!!
   print()
   print(L)  #L Matrix
   print()
